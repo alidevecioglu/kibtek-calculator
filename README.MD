@@ -14,7 +14,7 @@ Welcome to the Kwa Value Finder, a handy tool designed to help you locate the Kw
 
 ## Demo
 
-[@PyScript Demo](devecy.com)
+[@PyScript Demo](https://devecy.com/kibtek-calculator/)
 
 
 ## License
