@@ -4,6 +4,7 @@
 
 # KibTek Calculator
 Price list is updated on 27.07.2023
+You can find the latest prices on the official website of [KibTek](https://www.kibtek.com/)
 
 ### Disclaimer
 This application is not officially affiliated with KıbTek.
