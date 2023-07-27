@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KibTek Calculator</title>
+
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .background {
+            background-image: url('https://images.pexels.com/photos/189524/pexels-photo-189524.jpeg?cs=srgb&dl=pexels-pok-rie-189524.jpg&fm=jpg&w=1920&h=1440');
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            max-width: 400px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 200px;
+        }
+
+        h1 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        p {
+            margin-top: 0;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        a {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        #old-tarif, #new-tarif {
+            font-weight: bold;
+            color: red;
+            text-decoration: underline;
+        }
+
+        #new-tarif {
+            font-weight: bold;
+            color: green;
+            text-decoration: underline;
+        }
+
+        #result {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <section class="card">
+            <h1>KibTek Calculator</h1>
+            <p>Updated On: 27.07.2023</p>
+            <input type="text" placeholder="KWa" type="number" id="kwa-input"/>
+            <button id="submit-button" type="submit" py-click="pyScriptPrint()">Calculate</button>
+            <div id="result">
+                <a>
+                    Old Tarif: <span id="old-tarif"></span> ₺
+                </a>
+                <a>
+                    New Tarif: <span id="new-tarif"></span> ₺
+                </a>
+            </div>
+        </section>
+    </div>
+    <py-script>
+        old = [
+                [1.6110, 0, 250],       # 0 - 250Kwh 1 
+                [3.3237, 251, 500],     # 251 - 500Kwh 2
+                [3.5737, 501, 750],     # 501 - 750Kwh 3
+                [3.8737, 751, 1000],    # 751 - 1000Kwh 4
+                [4.6237, 1001],         # 1001+ 5
+            ]
+
+        new = [
+                [1.9332, 0, 250],       # 0 - 250Kwh 1 
+                [3.9884, 251, 500],     # 251 - 500Kwh 2
+                [4.2884, 501, 750],     # 501 - 750Kwh 3
+                [4.6484, 751, 1000],    # 751 - 1000Kwh 4
+                [5.5484, 1001],         # 1001+ 5
+            ]    
+
+        # Get user input
+        #usage = float(input("Enter the amount of kWh: "))
+        usage = Element('kwa-input').element.value
+
+        def calculate_electric(kwa,tarif):
+            total_output = 0
+            r = 4
+            while r >= 0:
+                if kwa > tarif[r][1]:
+                    temp = kwa - tarif[r][1]
+                    kwa -= temp
+                    total_output += temp * tarif[r][0]
+                r -= 1 
+            return total_output
+
+        def pyScriptPrint():
+            usage = Element('kwa-input').element.value
+            pyscript.write('old-tarif', "{:.2f}".format(calculate_electric(int(usage),old)))
+            pyscript.write('new-tarif', "{:.2f}".format(calculate_electric(int(usage),new)))
+    </py-script>
+</body>
+</html>
